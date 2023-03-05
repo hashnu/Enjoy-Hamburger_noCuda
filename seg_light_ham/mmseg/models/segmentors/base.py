@@ -122,7 +122,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
          'img_norm_cfg': {'mean': np.array([123.675, 116.28 , 103.53 ], dtype=np.float32),
           'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
           'to_rgb': True}}]
-        self.simple_test( imgs[0] , img_meta_hack, rescale=False, **kwargs)
+        self.forward_train( imgs[0] , img_meta_hack, rescale=False, **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
