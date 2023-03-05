@@ -59,8 +59,8 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         """Placeholder for augmentation test."""
         pass
     
-    def forward_infer(self, imgs, **kwargs):
-        forward_test(self, imgs, img_metas, **kwargs)
+    def forward_infer(self, img_metas, imgs, **kwargs):
+        forward_test(self, imgs, **kwargs)
 
     def forward_test(self, imgs, img_metas, **kwargs):
         """
