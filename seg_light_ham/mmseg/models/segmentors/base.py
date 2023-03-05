@@ -45,12 +45,6 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def encode_decode_onnx(self, img, img_metas):
-        """Placeholder for encode images with backbone and decode into a
-        semantic segmentation map of the same size as input."""
-        pass
-
-    @abstractmethod
     def forward_train(self, imgs, img_metas, **kwargs):
         """Placeholder for Forward function for training."""
         pass
