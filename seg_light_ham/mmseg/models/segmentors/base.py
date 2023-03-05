@@ -109,7 +109,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         else:
             return self.forward_test(img, img_metas, **kwargs)
        
-    
+    @auto_fp16(apply_to=('img', ))
     def forward_infer(self, img_metas,imgs, **kwargs):
         self.forward_test( imgs , img_metas, **kwargs)
 
