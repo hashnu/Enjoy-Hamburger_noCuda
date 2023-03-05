@@ -127,7 +127,7 @@ class EncoderDecoder(BaseSegmentor):
           'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
           'to_rgb': True}}]
        
-        seg_logit = self.encode_decode(img, img_metas)..unsqueeze(0)
+        seg_logit = self.encode_decode(img, img_metas).unsqueeze(0)
         
         return seg_logit
 
