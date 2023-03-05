@@ -111,7 +111,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
        
     @auto_fp16(apply_to=('img', ))
     def forward_onnx_hack(self, imgs, **kwargs):
-        img_meta_hack = {'filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
+        img_meta_hack = [{'filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
          'ori_filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
          'ori_shape': (512, 512, 3),
          'img_shape': (512, 512, 3),
@@ -121,8 +121,8 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
          'flip_direction': 'horizontal',
          'img_norm_cfg': {'mean': np.array([123.675, 116.28 , 103.53 ], dtype=np.float32),
           'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
-          'to_rgb': True}}
-        self.simple_test( imgs[0] , img_meta_hack, **kwargs)
+          'to_rgb': True}})
+        self.simple_test( imgs[0] , img_meta_hack, rescale=False, **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
