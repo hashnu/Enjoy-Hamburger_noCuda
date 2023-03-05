@@ -110,7 +110,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
             return self.forward_test(img, img_metas, **kwargs)
        
     
-    def forward_infer(self, imgs, **kwargs):
+    def forward_infer(self, img_metas,imgs, **kwargs):
         self.forward_test( imgs , img_metas, **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
