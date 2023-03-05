@@ -53,6 +53,11 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
     def simple_test(self, img, img_meta, **kwargs):
         """Placeholder for single image test."""
         pass
+    
+    @abstractmethod
+    def simple_test_onnx(self, img, img_meta, **kwargs):
+        """Placeholder for single image test."""
+        pass
 
     @abstractmethod
     def aug_test(self, imgs, img_metas, **kwargs):
@@ -110,7 +115,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
             return self.forward_test(img, img_metas, **kwargs)
        
     @auto_fp16(apply_to=('img', ))
-    def forward_onnx_hack(self, imgs, **kwargs):
+    def forward_onnx(self, imgs, **kwargs):
         img_meta_hack = [{'filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
          'ori_filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
          'ori_shape': (512, 512, 3),
@@ -122,7 +127,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
          'img_norm_cfg': {'mean': np.array([123.675, 116.28 , 103.53 ], dtype=np.float32),
           'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
           'to_rgb': True}}]
-        self.forward_train( imgs[0] , img_meta_hack, rescale=False, **kwargs)
+        self.simple_test_onnx( imgs[0] , img_meta_hack, rescale=False, **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
