@@ -43,6 +43,12 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         """Placeholder for encode images with backbone and decode into a
         semantic segmentation map of the same size as input."""
         pass
+    
+    @abstractmethod
+    def encode_decode_onnx(self, img, img_metas):
+        """Placeholder for encode images with backbone and decode into a
+        semantic segmentation map of the same size as input."""
+        pass
 
     @abstractmethod
     def forward_train(self, imgs, img_metas, **kwargs):
@@ -114,21 +120,6 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         else:
             return self.forward_test(img, img_metas, **kwargs)
        
-    @auto_fp16(apply_to=('img', ))
-    def forward_onnx(self, imgs, **kwargs):
-        img_meta_hack = [{'filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
-         'ori_filename': 'SemanticSegmentationUsingDeepLearningExample_02.png',
-         'ori_shape': (512, 512, 3),
-         'img_shape': (512, 512, 3),
-         'pad_shape': (512, 512, 3),
-         'scale_factor': np.array([0.45470694, 0.63760895, 0.45470694, 0.63760895], dtype=np.float32),
-         'flip': False,
-         'flip_direction': 'horizontal',
-         'img_norm_cfg': {'mean': np.array([123.675, 116.28 , 103.53 ], dtype=np.float32),
-          'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
-          'to_rgb': True}}]
-        self.simple_test_onnx( imgs[0] , img_meta_hack, rescale=False, **kwargs)
-
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
 
