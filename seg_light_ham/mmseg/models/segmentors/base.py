@@ -111,7 +111,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
        
     @auto_fp16(apply_to=('img', ))
     def forward_infer(self, img_metas,imgs, **kwargs):
-        self.forward_test( imgs , img_metas, **kwargs)
+        self.simple_test( imgs[0] , img_metas[0], **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
