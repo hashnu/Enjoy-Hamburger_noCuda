@@ -78,6 +78,32 @@ class EncoderDecoder(BaseSegmentor):
             mode='bilinear',
             align_corners=self.align_corners)
         return out
+    
+    def encode_decode_onnx(self, img):
+        """Encode images with backbone and decode into a semantic segmentation
+        map of the same size as input."""
+        
+        img_metas = [{'ori_shape': (512, 512, 3),
+         'img_shape': (512, 512, 3),
+         'pad_shape': (512, 512, 3),
+         'scale_factor': np.array([0.45470694, 0.63760895, 0.45470694, 0.63760895], dtype=np.float32),
+         'flip': False,
+         'flip_direction': 'horizontal',
+         'img_norm_cfg': {'mean': np.array([123.675, 116.28 , 103.53 ], dtype=np.float32),
+          'std': np.array([58.395, 57.12 , 57.375], dtype=np.float32),
+          'to_rgb': True}}]
+       
+        x = self.extract_feat(img)
+        out = self._decode_head_forward_test(x, img_metas)
+        out = resize(
+            input=out,
+            size=img.shape[2:],
+            mode='bilinear',
+            align_corners=self.align_corners)
+        return out
+    
+ 
+    
 
     def _decode_head_forward_train(self, x, img_metas, gt_semantic_seg):
         """Run forward function and calculate loss for decode head in
