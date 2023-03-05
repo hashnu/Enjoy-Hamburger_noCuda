@@ -263,6 +263,19 @@ class EncoderDecoder(BaseSegmentor):
         # unravel batch dim
         seg_pred = list(seg_pred)
         return seg_pred
+    
+    def simple_test_onnx(self, img, img_meta, rescale=True):
+        """Simple test with single image."""
+        seg_logit = self.inference(img, img_meta, rescale)
+        seg_pred = seg_logit.argmax(dim=1)
+        # our inference backend only support 4D output
+        seg_pred = seg_pred.unsqueeze(0)
+        return seg_pred
+        
+        seg_pred = seg_pred.cpu().numpy()
+        # unravel batch dim
+        seg_pred = list(seg_pred)
+        return seg_pred
 
     def aug_test(self, imgs, img_metas, rescale=True):
         """Test with augmentations.
