@@ -59,9 +59,6 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
         """Placeholder for augmentation test."""
         pass
     
-    def forward_infer(self, img_metas, imgs, **kwargs):
-        forward_test(self, imgs, **kwargs)
-
     def forward_test(self, imgs, img_metas, **kwargs):
         """
         Args:
@@ -111,6 +108,10 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
             return self.forward_train(img, img_metas, **kwargs)
         else:
             return self.forward_test(img, img_metas, **kwargs)
+        
+    @auto_fp16(apply_to=('img', ))
+    def forward_infer(self, img_metas, imgs, **kwargs):
+        forward_test(self, imgs, **kwargs)
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
